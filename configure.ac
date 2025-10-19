@@ -105,6 +105,22 @@ if test "$with_getline" = "yes"; then
   AC_DEFINE([WITH_GETLINE], 1, [Build using GNU getline.])
 fi
 
+# bin2c
+AC_ARG_WITH([bin2c-path],
+    [AS_HELP_STRING([--with-bin2c-path=PATH], [Use prebuilt bin2c binary at PATH])],
+    [BIN2C_PATH="$withval"],
+    [BIN2C_PATH=""])
+
+if test -n "$BIN2C_PATH"; then
+    USE_PREBUILT_BIN2C=true
+else
+    USE_PREBUILT_BIN2C=false
+fi
+
+AM_CONDITIONAL([USE_PREBUILT_BIN2C], [test "$USE_PREBUILT_BIN2C" = true])
+AC_SUBST([BIN2C_PATH])
+
+
 # UTF8
 AC_ARG_ENABLE([utf8],[AS_HELP_STRING([--enable-utf8],[Enable ncurses library that handles wide characters. Default is disabled])],[utf8="$enableval"],[utf8=no])
 

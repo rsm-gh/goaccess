@@ -51,6 +51,15 @@ CLEANFILES =                          \
   resources/js/charts.js.tmp          \
   resources/js/app.js.tmp
 
+# Prevent rebuilding bin2c if binary already exists
+bin2c$(EXEEXT):
+if USE_PREBUILT_BIN2C
+	@echo "Using prebuilt bin2c from $(BIN2C_PATH)"
+	cp $(BIN2C_PATH) bin2c$(EXEEXT)
+else
+	$(AM_V_CCLD)$(LINK) $(bin2c_OBJECTS) $(bin2c_LDADD) $(LIBS)
+endif
+
 # Tpls
 src/tpls.h: bin2c$(EXEEXT) $(srcdir)/resources/tpls.html
 if HAS_SEDTR
