@@ -45,8 +45,15 @@
 #include <openssl/ssl.h>
 #endif
 
-#if defined(__linux__) || defined(__CYGWIN__)
+#if defined(__linux__) || defined(__CYGWIN__) || defined(__redox__)
 #  include <endian.h>
+#if defined(__redox__)
+#  include <stdint.h>   /* for uint*_t types */
+#  include <limits.h>   /* for PIPE_BUF */
+#  ifndef PIPE_BUF
+#    define PIPE_BUF 4096
+#  endif
+#endif
 #if ((__GLIBC__ == 2) && (__GLIBC_MINOR__ < 9))
 #if defined(__BYTE_ORDER) && (__BYTE_ORDER == __LITTLE_ENDIAN)
 #  include <arpa/inet.h>
